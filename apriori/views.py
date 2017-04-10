@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from apriori.apyori import apriori
+from django.template import loader
 from apriori.ap import runApriori, dataFromFile
 # Create your views here.
 import pandas as pd
@@ -35,23 +36,46 @@ def index2(request):
     return HttpResponse(html)
 
 def index(request):
-    minSupport = 0.2
-    minConfidence = 0.5
+    minSupport = 0.0
+    minConfidence = 0.0
     inFile = dataFromFile('apriori/dataset.csv')
     print("got file")
     html = ""
     items, rules = runApriori(inFile, minSupport, minConfidence)
     print("return from apriori")
+
+    '''logic'''
+
+
+    context = {
+
+    }
+    a = "New York"
+    b = "MBE"
+    itemSet = set()
+    itemSet.add(a)
+    itemSet.add(b)
+
     for item, support in items:
+        list(item)
+        set(item)
+        '''for i in item:
+            html += str(i) + "<br>" '''
         #sorted(items, key=lambda support: support):
-        html += "item: %s , %.3f" % (str(item), support)
-        print(html)
+        #html += str(itemSet)
+        #html += str(item)
+        if itemSet.issubset(item):
+            html += "item:"+str(item)+" %.3f<br>" % (support)
+            for i in item:
 
-    html += '\n------------------------ RULES:'
+                print(html)
 
-    for rule, confidence in rules:
+    html += '------------------------ RULES:'
+
+    '''for rule, confidence in rules:
         #sorted(rules, key=lambda confidence: confidence):
         pre, post = rule
         html += "Rule: %s ==> %s , %.3f" % (str(pre), str(post), confidence)
         print(html)
-    return HttpResponse(html)
+    #template = loader.get_template("apriori/output.html") '''
+    return HttpResponse(html) #template.render(context, request))

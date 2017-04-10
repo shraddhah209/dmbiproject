@@ -64,8 +64,8 @@ def runApriori(data_iter, minSupport, minConfidence):
      - rules ((pretuple, posttuple), confidence)
     """
     itemSet, transactionList = getItemSetTransactionList(data_iter)
-    print (itemSet)
-    print (transactionList)
+    #print (itemSet)
+    #print (transactionList)
     freqSet = defaultdict(int)
     largeSet = dict()
     # Global dictionary which stores (key=n-itemSets,value=support)
@@ -83,11 +83,16 @@ def runApriori(data_iter, minSupport, minConfidence):
     k = 2
     while(currentLSet != set([])):
         largeSet[k-1] = currentLSet
+        print(currentLSet)
         currentLSet = joinSet(currentLSet, k)
+        print("&&&&&&&&&&&&&7")
+        print(currentLSet)
         currentCSet = returnItemsWithMinSupport(currentLSet,
                                                 transactionList,
                                                 minSupport,
                                                 freqSet)
+        print ("sgdsggshhs")
+        print(currentCSet)
         currentLSet = currentCSet
         k = k + 1
 
@@ -101,6 +106,7 @@ def runApriori(data_iter, minSupport, minConfidence):
                            for item in value])
 
     toRetRules = []
+    #print(list(largeSet.items()))
     for key, value in list(largeSet.items())[1:]:
         for item in value:
             _subsets = map(frozenset, [x for x in subsets(item)])
@@ -113,20 +119,6 @@ def runApriori(data_iter, minSupport, minConfidence):
                                            confidence))
     return toRetItems, toRetRules
 
-
-def printResults(items, rules):
-    """prints the generated itemsets sorted by support and the confidence rules sorted by confidence"""
-    '''for item, support in sorted(items, key=lambda support: support):
-        print "item: %s , %.3f" % (str(item), support)
-
-
-    print '\n------------------------ RULES:'
-
-    for rule, confidence in sorted(rules, key=lambda confidence: confidence):
-        pre, post = rule
-        print "Rule: %s ==> %s , %.3f" % (str(pre), str(post), confidence)'''
-
-
 def dataFromFile(fname):
         """Function which reads from the file and yields a generator"""
         file_iter = open(fname, 'rU') #open for input as a text file with universal newline interpretation
@@ -134,40 +126,3 @@ def dataFromFile(fname):
                 line = line.strip().rstrip(',')                         # Remove trailing comma
                 record = frozenset(line.split(','))
                 yield record
-
-
-'''if __name__ == "__main__":
-
-    optparser = OptionParser()
-    optparser.add_option('-f', '--inputFile',
-                         dest='input',
-                         help='filename containing csv',
-                         default=None)
-    optparser.add_option('-s', '--minSupport',
-                         dest='minS',
-                         help='minimum support value',
-                         default=0.15,
-                         type='float')
-    optparser.add_option('-c', '--minConfidence',
-                         dest='minC',
-                         help='minimum confidence value',
-                         default=0.6,
-                         type='float')
-
-    (options, args) = optparser.parse_args()
-
-    inFile = None
-    if options.input is None:
-        inFile = sys.stdin
-    elif options.input is not None:
-        inFile = dataFromFile(options.input)
-    else:
-        print 'No dataset filename specified, system with exit\n'
-        sys.exit('System will exit')
-
-    minSupport = options.minS
-    minConfidence = options.minC
-
-    items, rules = runApriori(inFile, minSupport, minConfidence)
-
-    printResults(items, rules)'''
