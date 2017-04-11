@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from apriori.apyori import apriori
 from django.template import loader
-from apriori.ap import runApriori, dataFromFile
+from apriori.ap import runApriori, dataFromFile, getItemSetTransactionList
 # Create your views here.
 import pandas as pd
 
@@ -35,47 +35,72 @@ def index2(request):
 
     return HttpResponse(html)
 
-def index(request):
-    minSupport = 0.0
-    minConfidence = 0.0
-    inFile = dataFromFile('apriori/dataset.csv')
-    print("got file")
-    html = ""
-    items, rules = runApriori(inFile, minSupport, minConfidence)
-    print("return from apriori")
 
-    '''logic'''
-
+def itemInput(request):
+    inFile = dataFromFile('apriori/market.csv')
+    input, T = getItemSetTransactionList(inFile)
+    itemSet = []
+    for x in input:
+        itemSet.append(list(x))
 
     context = {
-
+        "itemSet": itemSet
     }
+    #template = loader.get_template("apriori/output.html")
+    #return HttpResponse(template.render(context, request))
+    return render(request, 'apriori/output.html', context)
+
+def index(request):
+
+    input = set()
+    input = request.POST.getlist('ch[]')
+    set(input)
+    '''
     a = "New York"
     b = "MBE"
     itemSet = set()
     itemSet.add(a)
-    itemSet.add(b)
+    itemSet.add(b)'''
 
-    for item, support in items:
+    minSupport = 0.0
+    minConfidence = 0.0
+    inFile = dataFromFile('apriori/market.csv')
+    print("got file")
+    html = ""
+    items, rules = runApriori(inFile, minSupport, minConfidence)
+
+    itemSet1 = []
+    print("return from apriori")
+    html += str(input)
+    '''logic'''
+
+    for item,support in items:
+        set(item)
+        print(item)
+
+    '''
+     for item, support in items:
         list(item)
         set(item)
-        '''for i in item:
-            html += str(i) + "<br>" '''
         #sorted(items, key=lambda support: support):
         #html += str(itemSet)
         #html += str(item)
+        print(support)
         if itemSet.issubset(item):
-            html += "item:"+str(item)+" %.3f<br>" % (support)
+            #html += "item:"+str(item)+" %.3f<br>" % (support)
             for i in item:
-                print(html)
-                #bfgiuegfa
-
+                temp.add(i)
+                if not temp.issubset(itemSet):
+                    final.add(i)
+                temp.remove(i)
+                #print(html)
+    html += str(final)
     html += '------------------------ RULES:'
 
-    '''for rule, confidence in rules:
+    for rule, confidence in rules:
         #sorted(rules, key=lambda confidence: confidence):
         pre, post = rule
         html += "Rule: %s ==> %s , %.3f" % (str(pre), str(post), confidence)
-        print(html)
-    #template = loader.get_template("apriori/output.html") '''
+        print(html)    '''
+    #template = loader.get_template("apriori/output.html")
     return HttpResponse(html) #template.render(context, request))

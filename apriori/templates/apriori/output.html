@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+
+    </style>
     <meta charset="UTF-8">
     <title>Apriori result</title>
 </head>
 <body>
+<table border = 2 cellpadding="2"><form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+ {%     for b in itemSet %}
+    <tr>
+        <td>{% for i in b %}
+        <input type="checkbox" name="ch[]" value="{{ i }}">
+        </td>
+        <td>
 
-
-
+            {{ i }}
+            {% endfor %}
+    </td>
+    </tr>
+    {% endfor %}
+    <button type="submit">Submit</button>
+</form></table>
 </body>
 </html>

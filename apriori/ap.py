@@ -83,16 +83,11 @@ def runApriori(data_iter, minSupport, minConfidence):
     k = 2
     while(currentLSet != set([])):
         largeSet[k-1] = currentLSet
-        print(currentLSet)
         currentLSet = joinSet(currentLSet, k)
-        print("&&&&&&&&&&&&&7")
-        print(currentLSet)
         currentCSet = returnItemsWithMinSupport(currentLSet,
                                                 transactionList,
                                                 minSupport,
                                                 freqSet)
-        print ("sgdsggshhs")
-        print(currentCSet)
         currentLSet = currentCSet
         k = k + 1
 
