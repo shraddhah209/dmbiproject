@@ -67,8 +67,8 @@ def index(request):
         if itemSet.issubset(item):
             html += "item:"+str(item)+" %.3f<br>" % (support)
             for i in item:
-
                 print(html)
+                #bfgiuegfa
 
     html += '------------------------ RULES:'
 
