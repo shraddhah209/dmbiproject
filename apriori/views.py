@@ -93,8 +93,10 @@ def index(request):
                     final.add(i)
                     print(i)
                 temp.remove(i)
-
-    html += str(final)
+    html += "<style>" \
+            "</style>Recommendations: <br><br>"
+    for i in final:
+        html += str(i) +"<br>"
     #html += '------------------------ RULES:'
     '''
     for rule, confidence in rules:
