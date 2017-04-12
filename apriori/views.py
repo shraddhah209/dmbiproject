@@ -59,8 +59,6 @@ def itemInput(request):
     return render(request, 'apriori/output.html', context)
 
 def index(request):
-
-    input = set()
     input = request.POST.getlist('ch[]')
     set(input)
     '''
@@ -73,38 +71,32 @@ def index(request):
     minSupport = 0.0
     minConfidence = 0.0
     inFile = dataFromFile('apriori/market.csv')
-    print("got file")
     html = ""
     items, rules = runApriori(inFile, minSupport, minConfidence)
-
-    itemSet1 = []
-    print("return from apriori")
-    html += str(input)
+    itemSet = set()
+    for x in input:
+        itemSet.add(x)
     '''logic'''
-
-    for item,support in items:
-        set(item)
-        print(item)
-
-    '''
-     for item, support in items:
+    final = set()
+    temp = set()
+    for item, support in items:
         list(item)
         set(item)
         #sorted(items, key=lambda support: support):
         #html += str(itemSet)
         #html += str(item)
-        print(support)
+        # print(support)
         if itemSet.issubset(item):
-            #html += "item:"+str(item)+" %.3f<br>" % (support)
             for i in item:
                 temp.add(i)
                 if not temp.issubset(itemSet):
                     final.add(i)
+                    print(i)
                 temp.remove(i)
-                #print(html)
-    html += str(final)
-    html += '------------------------ RULES:'
 
+    html += str(final)
+    #html += '------------------------ RULES:'
+    '''
     for rule, confidence in rules:
         #sorted(rules, key=lambda confidence: confidence):
         pre, post = rule
