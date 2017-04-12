@@ -82,6 +82,7 @@ def index(request):
     for item, support in items:
         list(item)
         set(item)
+        print(item)
         #sorted(items, key=lambda support: support):
         #html += str(itemSet)
         #html += str(item)
@@ -94,15 +95,14 @@ def index(request):
                     print(i)
                 temp.remove(i)
     html += "<style>" \
-            "</style>Recommendations: <br><br>"
+            "</style><center><h2>Recommendations: </h2></center><br><br><h4>"
     for i in final:
-        html += str(i) +"<br>"
+        print(i)
+        html += "<center>"+ str(i) +"<br>"
+    html +="</h4>"
     #html += '------------------------ RULES:'
-    '''
-    for rule, confidence in rules:
-        #sorted(rules, key=lambda confidence: confidence):
+    html += "Confidence:<br>"
+    '''for rule, confidence in rules:
         pre, post = rule
-        html += "Rule: %s ==> %s , %.3f" % (str(pre), str(post), confidence)
-        print(html)    '''
-    #template = loader.get_template("apriori/output.html")
+        html += "%s ----->  %s , %.3f<br>" % (str(pre), str(post), 100*confidence) '''
     return HttpResponse(html) #template.render(context, request))
