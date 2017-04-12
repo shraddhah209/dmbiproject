@@ -2,24 +2,26 @@
 <html lang="en">
 <head>
     <style>
-
+        tr {
+            float: left;
+            width: 300px
+        }
     </style>
     <meta charset="UTF-8">
     <title>Apriori result</title>
+
 </head>
 <body>
 <table border = 2 cellpadding="2"><form action="{% url 'index' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
  {%     for b in itemSet %}
     <tr>
-        <td>{% for i in b %}
-        <input type="checkbox" name="ch[]" value="{{ i }}">
+        <td>
+        <input type="checkbox" name="ch[]" value="{{ b }}">
         </td>
         <td>
-
-            {{ i }}
-            {% endfor %}
-    </td>
+            {{ b }}
+        </td>
     </tr>
     {% endfor %}
     <button type="submit">Submit</button>

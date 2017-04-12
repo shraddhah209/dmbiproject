@@ -6,7 +6,7 @@ from django.template import loader
 from apriori.ap import runApriori, dataFromFile, getItemSetTransactionList
 # Create your views here.
 import pandas as pd
-
+import numpy
 
 def index2(request):
     html = "hi"
@@ -40,11 +40,19 @@ def itemInput(request):
     inFile = dataFromFile('apriori/market.csv')
     input, T = getItemSetTransactionList(inFile)
     itemSet = []
+    itemsort = []
     for x in input:
         itemSet.append(list(x))
+    for i in itemSet:
+        for x in i:
+            itemsort.append(x)
+    itemsort.sort()
+    #print(itemsort)
+    length = len(itemsort)
 
+    print(length)
     context = {
-        "itemSet": itemSet
+        "itemSet": itemsort
     }
     #template = loader.get_template("apriori/output.html")
     #return HttpResponse(template.render(context, request))
