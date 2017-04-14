@@ -68,8 +68,8 @@ def index(request):
     itemSet.add(a)
     itemSet.add(b)'''
 
-    minSupport = 0.0
-    minConfidence = 0.0
+    minSupport = 0.006
+    minConfidence = 0.02
     inFile = dataFromFile('apriori/market.csv')
     html = ""
     items, rules = runApriori(inFile, minSupport, minConfidence)
@@ -100,9 +100,8 @@ def index(request):
         print(i)
         html += "<center>"+ str(i) +"<br>"
     html +="</h4>"
-    #html += '------------------------ RULES:'
     html += "Confidence:<br>"
-    '''for rule, confidence in rules:
+    for rule, confidence in rules:
         pre, post = rule
-        html += "%s ----->  %s , %.3f<br>" % (str(pre), str(post), 100*confidence) '''
+        html += "%s ----->  %s , %.3f<br>" % (str(pre), str(post), 100*confidence)
     return HttpResponse(html) #template.render(context, request))
